@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"strings"
 	"time"
 
 	"github.com/zorkian/go-datadog-api"
@@ -13,6 +14,7 @@ const (
 	github string = "GITHUB"
 	low string = "LOW"
 )
+
 func main() {
 	ddApiKey := os.Getenv("INPUT_DD_API_KEY")
 	if ddApiKey == "" {
@@ -28,6 +30,10 @@ func main() {
 	if eventTitle == "" {
 		log.Fatalf("input EVENT_TITLE must be set")
 	}
+
+	eventTagList := strings.Split(
+		os.Getenv("INPUT_EVENT_TAGS"),
+		",")
 
 	// Event Time in UTC
 	loc, _ := time.LoadLocation("UTC")
@@ -46,7 +52,7 @@ func main() {
 		Host:        nil,  // Optional
 		Aggregation: nil,  // Optional
 		SourceType:  &source,
-		Tags:        nil,  // Optional
+		Tags:        eventTagList,  // Optional
 		Url:         nil,  // Optional
 		Resource:    nil,  // Optional
 		EventType:   nil,
