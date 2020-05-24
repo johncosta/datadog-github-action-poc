@@ -6,7 +6,7 @@ import (
 )
 
 func main() {
-	myInput := os.Getenv("INPUT_MYINPUT")
+	myInput := os.Getenv("INPUT_DD_API_KEY")
 
 	output := fmt.Sprintf("Hello %s", myInput)
 

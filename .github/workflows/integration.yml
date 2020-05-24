@@ -9,7 +9,7 @@ jobs:
         id: selftest
 
         # Put your action repo here
-        uses: jacobtomlinson/go-container-action@master
+        uses: johncosta/datadog-github-action-poc@master
 
       - name: Check outputs
         run: |
