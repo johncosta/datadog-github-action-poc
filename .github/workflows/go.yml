@@ -1,18 +1,11 @@
 name: Build
 on: [push, pull_request]
 jobs:
-  build:
-    name: Build
+  lint:
+    name: Lint
     runs-on: ubuntu-latest
     steps:
-      - name: Set up Go 1.13
-        uses: actions/setup-go@v1
-        with:
-          go-version: 1.13
-        id: go
-
       - uses: actions/checkout@v2
-
       - name: Lint
         uses: reviewdog/action-golangci-lint@v1
         with:
@@ -21,6 +14,17 @@ jobs:
           tool_name: "reviewdog/action-golangci-lint"
           reporter: "github-pr-review"
           fail_on_error: false
+
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up Go 1.14
+        uses: actions/setup-go@v1
+        with:
+          go-version: 1.14
+        id: go
 
       - name: Test
         run: |

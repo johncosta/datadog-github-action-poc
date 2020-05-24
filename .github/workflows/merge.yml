@@ -1,0 +1,28 @@
+name: Merge
+
+on:
+  push:
+    branches:
+      - 'master'
+
+jobs:
+  version:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Bumpversion and Tag
+        id: bumpversion
+        uses: anothrNick/github-tag-action@1.22.0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          WITH_V: true
+          DRY_RUN: false
+      - name: Generate changelog
+        uses: charmixer/auto-changelog-action@v1
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Commit changelog
+        uses: stefanzweifel/git-auto-commit-action@v4.2.0
+        with:
+          commit_message: Apply version and Changlog
+          branch: master

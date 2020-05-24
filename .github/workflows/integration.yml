@@ -7,11 +7,9 @@ jobs:
       - name: debug
         env:
           GITHUB_CONTEXT: ${{ toJson(github) }}
-          SECRETS_CONTEXT: ${{ toJson(secrets) }}
         run: |
           env
           echo "$GITHUB_CONTEXT"
-          echo "$SECRETS_CONTEXT"
       - uses: actions/checkout@master
       - name: Self test
         id: selftest
@@ -22,7 +20,7 @@ jobs:
           DD_API_KEY: ${{secrets.DD_API_KEY}}
           DD_APP_KEY: ${{secrets.DD_API_KEY}}
           EVENT_TITLE: Integration Test
-          EVENT_TAG: "app:dd-github-action, env=PoC"
+          EVENT_TAG: "env=PoC, app:datadog-github-action, event:${{github.event_name}}, job:${{github.job}}"
 
 #      - name: Check outputs
 #        run: |
