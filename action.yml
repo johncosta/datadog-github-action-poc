@@ -5,9 +5,15 @@ inputs:
   DD_API_KEY:
     description: "Datadog Api Key"
     required: true
-#outputs:
-#  myOutput:
-#    description: "Output from the action"
+  DD_APP_KEY:
+    description: "Datadog Api Key"
+    required: true
+  EVENT_TITLE:
+    description: "Title of the event sent to Datadog"
+    required: true
+outputs:
+  output:
+    description: "Output from the action"
 runs:
   using: "docker"
   image: "Dockerfile"
