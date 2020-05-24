@@ -1,13 +1,13 @@
-name: "Go Container Action Template"
-description: "Get started with Go Container actions"
-author: "Jacob Tomlinson"
+name: "Datadog Golang Action"
+description: "Action used to collect events and metrics by sending them to datadog"
+author: "John Costa"
 inputs:
-  myInput:
-    description: "Input to use"
-    default: "world"
-outputs:
-  myOutput:
-    description: "Output from the action"
+  DD_API_KEY:
+    description: "Datadog Api Key"
+    required: true
+#outputs:
+#  myOutput:
+#    description: "Output from the action"
 runs:
   using: "docker"
   image: "Dockerfile"
