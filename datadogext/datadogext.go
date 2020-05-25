@@ -43,7 +43,6 @@ type datadogEvent struct {
 	event             *datadog.Event
 	eventMetric       *float64
 	eventMetricName   *string
-	eventMetricStatus *string
 }
 
 // GetSource returns the SourceType of the event
@@ -123,7 +122,7 @@ func (dde *datadogEvent) setEventMetricName(name string) {
 // NewDatadogEvent retreives inputs from the environment and returns a constructed event.
 func NewDatadogEvent() *datadogEvent {
 	client := NewDatadogClient()
-	event := &datadogEvent{client, &datadog.Event{}, nil, nil, nil}
+	event := &datadogEvent{client, &datadog.Event{}, nil, nil}
 	event.setSource(Github)
 	event.setTimeToNow()
 	event.setTitle(os.Getenv("INPUT_EVENT_TITLE"))
@@ -153,7 +152,7 @@ func (dde datadogEvent) Post() (err error) {
 	}
 
 	sOne := one
-	statusMetricName := strings.Join([]string{*dde.eventMetricName, *dde.eventMetricStatus}, ".")
+	statusMetricName := strings.Join([]string{*dde.eventMetricName, *dde.event.AlertType}, ".")
 	err = dde.client.PostMetrics(
 		[]datadog.Metric{
 			{
