@@ -1,5 +1,21 @@
 # Changelog
 
+## [v0.7.0](https://github.com/johncosta/datadog-github-action-poc/tree/v0.7.0) (2020-05-25)
+
+[Full Changelog](https://github.com/johncosta/datadog-github-action-poc/compare/v0.6.0...v0.7.0)
+
+**Merged pull requests:**
+
+- disable status [\#10](https://github.com/johncosta/datadog-github-action-poc/pull/10) ([johncosta](https://github.com/johncosta))
+
+## [v0.6.0](https://github.com/johncosta/datadog-github-action-poc/tree/v0.6.0) (2020-05-25)
+
+[Full Changelog](https://github.com/johncosta/datadog-github-action-poc/compare/v0.5.0...v0.6.0)
+
+**Merged pull requests:**
+
+- Introduce logging [\#9](https://github.com/johncosta/datadog-github-action-poc/pull/9) ([johncosta](https://github.com/johncosta))
+
 ## [v0.5.0](https://github.com/johncosta/datadog-github-action-poc/tree/v0.5.0) (2020-05-25)
 
 [Full Changelog](https://github.com/johncosta/datadog-github-action-poc/compare/v0.4.0...v0.5.0)
