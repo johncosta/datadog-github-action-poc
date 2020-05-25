@@ -28,10 +28,17 @@ jobs:
 
       # Put your action repo here
       uses: me/myaction@master
-
-      # Put an example of your mandatory inputs here
+      uses: johncosta/datadog-github-action-poc@master
+      
+      # Required Inputs
       with:
-        myInput: world
+        DD_API_KEY: ${{secrets.DD_API_KEY}}
+        DD_APP_KEY: ${{secrets.DD_API_KEY}}
+        EVENT_TITLE: "Name of Event"
+
+      # Optional Inputs
+        EVENT_TAG: "app:dd-github-action, env=PoC"
+
 ```
 
 ### Inputs
