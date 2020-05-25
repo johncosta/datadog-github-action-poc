@@ -1,5 +1,13 @@
 # Changelog
 
+## [v0.2.0](https://github.com/johncosta/datadog-github-action-poc/tree/v0.2.0) (2020-05-25)
+
+[Full Changelog](https://github.com/johncosta/datadog-github-action-poc/compare/v0.1.0...v0.2.0)
+
+**Merged pull requests:**
+
+- Enable Event Status [\#5](https://github.com/johncosta/datadog-github-action-poc/pull/5) ([johncosta](https://github.com/johncosta))
+
 ## [v0.1.0](https://github.com/johncosta/datadog-github-action-poc/tree/v0.1.0) (2020-05-25)
 
 [Full Changelog](https://github.com/johncosta/datadog-github-action-poc/compare/5d13deeafd767c2d0630cd90a83eb7cb8886eedd...v0.1.0)
