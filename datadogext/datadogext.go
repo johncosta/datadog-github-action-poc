@@ -64,10 +64,10 @@ func (dde datadogEvent) GetTags() []string {
 	return dde.event.Tags
 }
 
-// GetStatus returns the status of the event
-func (dde datadogEvent) GetStatus() *string {
-	return dde.event.AlertType
-}
+//// GetStatus returns the status of the event
+//func (dde datadogEvent) GetStatus() *string {
+//	return dde.event.AlertType
+//}
 
 func (dde *datadogEvent) setSource(source string) {
 	dde.event.SourceType = &source
@@ -91,14 +91,14 @@ func (dde *datadogEvent) setTagList(tags string) {
 	dde.event.Tags = strings.Split(tags, ",")
 }
 
-func (dde *datadogEvent) setStatus(status string) {
-	status = strings.ToLower(status)
-	switch status {
-	case estring, warning, info, success: //valid
-		statusString := strings.Join([]string{"status", status}, ":")
-		dde.event.AlertType = &statusString
-	}
-}
+//func (dde *datadogEvent) setStatus(status string) {
+//	status = strings.ToLower(status)
+//	switch status {
+//	case estring, warning, info, success: //valid
+//		statusString := strings.Join([]string{"status", status}, ":")
+//		dde.event.AlertType = &statusString
+//	}
+//}
 
 func (dde *datadogEvent) setEventMetric(status string) {
 	if status == "" {
@@ -127,7 +127,7 @@ func NewDatadogEvent() *datadogEvent {
 	event.setTimeToNow()
 	event.setTitle(os.Getenv("INPUT_EVENT_TITLE"))
 	event.setTagList(os.Getenv("INPUT_EVENT_TAGS"))
-	event.setStatus(os.Getenv("INPUT_EVENT_STATUS"))
+	//event.setStatus(os.Getenv("INPUT_EVENT_STATUS"))
 	event.setEventMetric(os.Getenv("INPUT_EVENT_METRIC"))
 	event.setEventMetricName(os.Getenv("INPUT_EVENT_METRIC_NAME"))
 	log.Debugf("New Event Generated and Configured: `%+v`", event)
