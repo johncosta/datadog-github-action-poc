@@ -3,14 +3,14 @@
 package datadogext
 
 import (
-	"log"
 	"os"
 	"strconv"
 	"strings"
 	"time"
 
+	"github.com/levenlabs/golib/timeutil"
+	log "github.com/sirupsen/logrus"
 	"github.com/zorkian/go-datadog-api"
-    "github.com/levenlabs/golib/timeutil"
 )
 
 const (
@@ -38,8 +38,8 @@ func NewDatadogClient() *datadog.Client {
 }
 
 type datadogEvent struct {
-	client 		    *datadog.Client
-	event  		    *datadog.Event
+	client          *datadog.Client
+	event           *datadog.Event
 	eventMetric     *float64
 	eventMetricName *string
 }
@@ -130,6 +130,7 @@ func NewDatadogEvent() *datadogEvent {
 	event.setStatus(os.Getenv("INPUT_EVENT_STATUS"))
 	event.setEventMetric(os.Getenv("INPUT_EVENT_METRIC"))
 	event.setEventMetricName(os.Getenv("INPUT_EVENT_METRIC_NAME"))
+	log.Debugf("New Event Generated and Configured: `%+v`", event)
 
 	return event
 }
@@ -141,6 +142,7 @@ func (dde datadogEvent) Post() (err error) {
 		return err
 	}
 
+	log.Info("Event posted successfully.")
 	countType := count
 	int64Time := int64(*dde.event.Time)
 	convertedTime := timeutil.TimestampFromInt64(int64Time).Float64()
@@ -168,5 +170,7 @@ func (dde datadogEvent) Post() (err error) {
 	if err != nil {
 		return err
 	}
+
+	log.Info("Metric posted successfully.")
 	return nil
 }
