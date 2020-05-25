@@ -18,6 +18,13 @@ inputs:
   EVENT_TAGS:
     description: "Tags labeling the event"
     required: false
+  EVENT_METRIC_NAME:
+    description: "Name of the count metric associated to the event. Required only when a count metric is provided."
+    required: false
+  EVENT_METRIC:
+    description: "Collects an integer value to report as a count metric associated to the event"
+    required: false
+
 outputs:
   output:
     description: "Output from the action"

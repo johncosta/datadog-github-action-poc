@@ -5,9 +5,11 @@ package datadogext
 import (
 	"log"
 	"os"
+	"strconv"
 	"strings"
 	"time"
 
+	"github.com/levenlabs/golib/timeutil"
 	"github.com/zorkian/go-datadog-api"
 )
 
@@ -17,6 +19,7 @@ const (
 	info    string = "info"
 	success string = "success"
 	Github  string = "GITHUB"
+	count   string = "count"
 )
 
 // NewDatadogClient loads the environment variables required for configuration and returns an instantiated DD Client Struct.
@@ -35,8 +38,10 @@ func NewDatadogClient() *datadog.Client {
 }
 
 type datadogEvent struct {
-	client *datadog.Client
-	event  *datadog.Event
+	client          *datadog.Client
+	event           *datadog.Event
+	eventMetric     *float64
+	eventMetricName *string
 }
 
 // GetSource returns the SourceType of the event
@@ -95,25 +100,72 @@ func (dde *datadogEvent) setStatus(status string) {
 	}
 }
 
+func (dde *datadogEvent) setEventMetric(status string) {
+	if status == "" {
+		return
+	}
+
+	metric, err := strconv.ParseFloat(status, 64)
+	if err != nil {
+		log.Fatalf("unable to convert `%s` to int", status)
+	}
+
+	dde.eventMetric = &metric
+}
+
+func (dde *datadogEvent) setEventMetricName(name string) {
+	if name != "" {
+		dde.eventMetricName = &name
+	}
+}
+
 // NewDatadogEvent retreives inputs from the environment and returns a constructed event.
 func NewDatadogEvent() *datadogEvent {
 	client := NewDatadogClient()
-	event := &datadogEvent{client, &datadog.Event{}}
+	event := &datadogEvent{client, &datadog.Event{}, nil, nil}
 	event.setSource(Github)
 	event.setTimeToNow()
 	event.setTitle(os.Getenv("INPUT_EVENT_TITLE"))
 	event.setTagList(os.Getenv("INPUT_EVENT_TAGS"))
 	event.setStatus(os.Getenv("INPUT_EVENT_STATUS"))
+	event.setEventMetric(os.Getenv("INPUT_EVENT_METRIC"))
+	event.setEventMetricName(os.Getenv("INPUT_EVENT_METRIC_NAME"))
 
 	return event
 }
 
 // Post calls the Datadog api, creating the event.
-func (dde datadogEvent) Post() error {
-	_, err := dde.client.PostEvent(dde.event)
+func (dde datadogEvent) Post() (err error) {
+	_, err = dde.client.PostEvent(dde.event)
 	if err != nil {
 		return err
 	}
 
+	countType := count
+	int64Time := int64(*dde.event.Time)
+	convertedTime := timeutil.TimestampFromInt64(int64Time).Float64()
+
+	if dde.eventMetric == nil {
+		return nil
+	}
+
+	err = dde.client.PostMetrics(
+		[]datadog.Metric{
+			{
+				Metric: dde.eventMetricName,
+				Tags:   dde.event.Tags,
+				Type:   &countType,
+				Points: []datadog.DataPoint{
+					{
+						&convertedTime,
+						dde.eventMetric,
+					},
+				},
+			},
+		},
+	)
+	if err != nil {
+		return err
+	}
 	return nil
 }
