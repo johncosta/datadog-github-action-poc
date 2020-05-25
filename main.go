@@ -2,13 +2,21 @@ package main
 
 import (
 	"fmt"
-	"log"
+
 	"os"
 
 	"github.com/johncosta/datadog-github-action-poc/datadogext"
+	log "github.com/sirupsen/logrus"
 )
 
 func main() {
+	log.SetFormatter(&log.TextFormatter{
+		DisableColors: false,
+		FullTimestamp: true,
+	})
+	log.SetOutput(os.Stdout)
+	log.SetLevel(log.DebugLevel)
+
 	event := datadogext.NewDatadogEvent()
 	err := event.Post()
 	if err != nil {
@@ -17,5 +25,5 @@ func main() {
 	}
 
 	output := fmt.Sprintf("Event: %+v", event)
-	fmt.Println(fmt.Sprintf(`::set-output name=output::%s`, output))
+	fmt.Printf(`::set-output name=output::%s\n`, output)
 }
