@@ -149,10 +149,11 @@ func (dde datadogEvent) Post() (err error) {
 		return nil
 	}
 
+	cleaned := strings.ReplaceAll(*dde.eventMetricName, "/", ".")
 	err = dde.client.PostMetrics(
 		[]datadog.Metric{
 			{
-				Metric: dde.eventMetricName,
+				Metric: &cleaned,
 				Tags:   dde.event.Tags,
 				Type:   &countType,
 				Points: []datadog.DataPoint{
