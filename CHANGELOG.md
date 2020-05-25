@@ -1,5 +1,13 @@
 # Changelog
 
+## [v0.9.0](https://github.com/johncosta/datadog-github-action-poc/tree/v0.9.0) (2020-05-25)
+
+[Full Changelog](https://github.com/johncosta/datadog-github-action-poc/compare/v0.8.0...v0.9.0)
+
+**Merged pull requests:**
+
+- Send status metric that can be counted [\#12](https://github.com/johncosta/datadog-github-action-poc/pull/12) ([johncosta](https://github.com/johncosta))
+
 ## [v0.8.0](https://github.com/johncosta/datadog-github-action-poc/tree/v0.8.0) (2020-05-25)
 
 [Full Changelog](https://github.com/johncosta/datadog-github-action-poc/compare/v0.7.0...v0.8.0)
