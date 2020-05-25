@@ -14,12 +14,13 @@ import (
 )
 
 const (
-	estring string = "error"
-	warning string = "warning"
-	info    string = "info"
-	success string = "success"
-	Github  string = "GITHUB"
-	count   string = "count"
+	estring string  = "error"
+	warning string  = "warning"
+	info    string  = "info"
+	success string  = "success"
+	Github  string  = "GITHUB"
+	count   string  = "count"
+	one     float64 = 1
 )
 
 // NewDatadogClient loads the environment variables required for configuration and returns an instantiated DD Client Struct.
@@ -38,10 +39,11 @@ func NewDatadogClient() *datadog.Client {
 }
 
 type datadogEvent struct {
-	client          *datadog.Client
-	event           *datadog.Event
-	eventMetric     *float64
-	eventMetricName *string
+	client            *datadog.Client
+	event             *datadog.Event
+	eventMetric       *float64
+	eventMetricName   *string
+	eventMetricStatus *string
 }
 
 // GetSource returns the SourceType of the event
@@ -121,7 +123,7 @@ func (dde *datadogEvent) setEventMetricName(name string) {
 // NewDatadogEvent retreives inputs from the environment and returns a constructed event.
 func NewDatadogEvent() *datadogEvent {
 	client := NewDatadogClient()
-	event := &datadogEvent{client, &datadog.Event{}, nil, nil}
+	event := &datadogEvent{client, &datadog.Event{}, nil, nil, nil}
 	event.setSource(Github)
 	event.setTimeToNow()
 	event.setTitle(os.Getenv("INPUT_EVENT_TITLE"))
@@ -150,17 +152,29 @@ func (dde datadogEvent) Post() (err error) {
 		return nil
 	}
 
-	cleaned := strings.ReplaceAll(*dde.eventMetricName, "/", ".")
+	sOne := one
+	statusMetricName := strings.Join([]string{*dde.eventMetricName, *dde.eventMetricStatus}, ".")
 	err = dde.client.PostMetrics(
 		[]datadog.Metric{
 			{
-				Metric: &cleaned,
+				Metric: dde.eventMetricName,
 				Tags:   dde.event.Tags,
 				Type:   &countType,
 				Points: []datadog.DataPoint{
 					{
 						&convertedTime,
 						dde.eventMetric,
+					},
+				},
+			},
+			{
+				Metric: &statusMetricName,
+				Tags:   dde.event.Tags,
+				Type:   &countType,
+				Points: []datadog.DataPoint{
+					{
+						&convertedTime,
+						&sOne,
 					},
 				},
 			},
