@@ -1,5 +1,13 @@
 # Changelog
 
+## [v0.5.0](https://github.com/johncosta/datadog-github-action-poc/tree/v0.5.0) (2020-05-25)
+
+[Full Changelog](https://github.com/johncosta/datadog-github-action-poc/compare/v0.4.0...v0.5.0)
+
+**Merged pull requests:**
+
+- clean / to . [\#8](https://github.com/johncosta/datadog-github-action-poc/pull/8) ([johncosta](https://github.com/johncosta))
+
 ## [v0.4.0](https://github.com/johncosta/datadog-github-action-poc/tree/v0.4.0) (2020-05-25)
 
 [Full Changelog](https://github.com/johncosta/datadog-github-action-poc/compare/v0.3.0...v0.4.0)
