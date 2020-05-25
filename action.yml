@@ -11,6 +11,10 @@ inputs:
   EVENT_TITLE:
     description: "Title of the event sent to Datadog"
     required: true
+  EVENT_STATUS:
+    description: "Status of the event"
+    default: info
+    required: false
   EVENT_TAGS:
     description: "Tags labeling the event"
     required: false
