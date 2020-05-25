@@ -20,7 +20,9 @@ jobs:
           DD_API_KEY: ${{secrets.DD_API_KEY}}
           DD_APP_KEY: ${{secrets.DD_API_KEY}}
           EVENT_TITLE: Integration Test
-          EVENT_TAG: "env=PoC, app:datadog-github-action, event:${{github.event_name}}, job:${{github.job}}"
+          EVENT_TAGS: "env=PoC, app:datadog-github-action, event:${{github.event_name}}, job:${{github.job}}"
+          EVENT_METRIC_NAME: "event.datadog-github-action.${{github.event_name}}.runtime"
+          EVENT_METRIC: 1
 
 #      - name: Check outputs
 #        run: |

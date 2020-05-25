@@ -13,6 +13,7 @@ func main() {
 	if err != nil {
 		log.Fatal(err.Error())
 	}
+
 	output := fmt.Sprintf("Event: %+v", event)
 	fmt.Println(fmt.Sprintf(`::set-output name=output::%s`, output))
 }
