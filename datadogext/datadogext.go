@@ -153,8 +153,8 @@ func (dde datadogEvent) Post() (err error) {
 		[]datadog.Metric{
 			{
 				Metric: dde.eventMetricName,
-				Tags: dde.event.Tags,
-				Type: &countType,
+				Tags:   dde.event.Tags,
+				Type:   &countType,
 				Points: []datadog.DataPoint{
 					{
 						&convertedTime,
